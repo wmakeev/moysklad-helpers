@@ -1,0 +1,36 @@
+// https://www.typescriptlang.org/v2/en/tsconfig
+{
+  "compilerOptions": {
+    // -- Project Options
+    "incremental": true,
+    "target": "ES2018", // Node 10.x
+    "module": "CommonJS",
+    "lib": [
+      "ES2018" // Node 10.x
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    // -- Strict Checks
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    // -- Module Resolution
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    // -- Linter Checks
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // -- Advanced
+    "resolveJsonModule": true,
+    "newLine": "lf",
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/",
+    "tests/"
+  ]
+}
