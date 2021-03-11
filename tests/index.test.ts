@@ -1,11 +1,11 @@
 import test from 'tape'
 import Moysklad from 'moysklad'
 
-import helpers from '../src'
+import { getHelpers } from '../src'
 
 test('href', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { href } = helpers(ms)
+  const { href } = getHelpers(ms)
 
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
@@ -23,12 +23,10 @@ test('href', t => {
   t.equal(href(ref1), HREF1, 'should return href for ref')
   t.equal(href(entityRef1), HREF1, 'should return href for entityRef')
 
-  t.throws(
-    () => {
-      href(Moysklad({ apiVersion: '1.1' }).buildUrl('entity/customerorder'))
-    },
-    /Url не соответствует/,
-    'should throw error on mismatch apiVersion'
+  t.equal(
+    href('https://online.moysklad.ru/api/remap/1.1/entity/customerorder'),
+    'https://online.moysklad.ru/api/remap/1.2/entity/customerorder',
+    'should rebuild url with other api version'
   )
 
   t.end()
@@ -36,7 +34,7 @@ test('href', t => {
 
 test('meta', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { meta, href } = helpers(ms)
+  const { meta, href } = getHelpers(ms)
 
   const ATTR_REF =
     'entity/cashin/metadata/attributes/10b16e0a-c64b-4243-96c1-196472fc1d21'
@@ -131,7 +129,7 @@ test('meta', t => {
 
 test('attr', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { attr } = helpers(ms)
+  const { attr } = getHelpers(ms)
 
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
@@ -162,7 +160,7 @@ test('attr', t => {
 
 test('ref', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { ref } = helpers(ms)
+  const { ref } = getHelpers(ms)
 
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
@@ -194,7 +192,7 @@ test('ref', t => {
 
 test('positionRef', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { ref, href, positionRef } = helpers(ms)
+  const { ref, href, positionRef } = getHelpers(ms)
 
   const posId = '39f9f7bc-d4da-11e4-95df-0cc47a051618'
 
@@ -217,7 +215,7 @@ test('positionRef', t => {
 
 test('refEqual', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { refEqual, ref, href } = helpers(ms)
+  const { refEqual, ref, href } = getHelpers(ms)
 
   const ref1 = 'entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
@@ -234,7 +232,7 @@ test('refEqual', t => {
 
 test('copyEntRefs', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { ref, copyEntRefs } = helpers(ms)
+  const { ref, copyEntRefs } = getHelpers(ms)
 
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
@@ -255,7 +253,7 @@ test('copyEntRefs', t => {
 
 test('copyEntRefs', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
-  const { ref, copyFields } = helpers(ms)
+  const { ref, copyFields } = getHelpers(ms)
 
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'

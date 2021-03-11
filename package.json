@@ -1,6 +1,6 @@
 {
   "name": "moysklad-helpers",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Вспомогательные функции для работы с библиотекой moysklad",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -28,14 +28,14 @@
     "url": "https://github.com/wmakeev/moysklad-helpers/issues"
   },
   "homepage": "https://github.com/wmakeev/moysklad-helpers#readme",
-  "dependencies": {},
-  "optionalDependencies": {
-    "moysklad": "^0.6.4"
-  },
   "devDependencies": {
-    "@types/tape": "^4.2.33",
-    "prettier": "^2.0.2",
-    "tape": "^4.13.0",
-    "typescript": "^3.7.5"
+    "@types/tape": "^4.13.0",
+    "moysklad": "0.9.2",
+    "prettier": "^2.2.1",
+    "tape": "^5.2.2",
+    "typescript": "^4.2.3"
+  },
+  "peerDependencies": {
+    "moysklad": "^0.9.2"
   }
 }
