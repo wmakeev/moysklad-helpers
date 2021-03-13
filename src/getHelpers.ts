@@ -102,8 +102,8 @@ export function getHelpers(ms: Instance) {
   }
 
   const refEqual = (
-    entityRef1: Path | EntityRef,
-    entityRef2: Path | EntityRef
+    entityRef1: Path | EntityRef | null | undefined,
+    entityRef2: Path | EntityRef | null | undefined
   ) => {
     return entityRef1 == null || entityRef2 == null
       ? false

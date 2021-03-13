@@ -227,6 +227,10 @@ test('refEqual', t => {
 
   t.equal(refEqual('foo', ref(ref1)), false, 'should test for equals #4')
 
+  t.equal(refEqual(null, ref(ref1)), false, 'should test for equals #5')
+
+  t.equal(refEqual(ref(ref1), undefined), false, 'should test for equals #6')
+
   t.end()
 })
 
