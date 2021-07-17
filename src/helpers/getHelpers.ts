@@ -53,9 +53,9 @@ export function getHelpers(ms: Instance) {
     path: T | undefined
   ): EntityRef<HrefMetaType<T>> | undefined
 
-  function ref<M extends MetaType>(entityRef?: EntityRef<M>): EntityRef<M>
+  function ref<M extends MetaType>(entityRef: EntityRef<M>): EntityRef<M>
   function ref<M extends MetaType>(
-    entityRef?: EntityRef<M> | undefined
+    entityRef: EntityRef<M> | undefined
   ): EntityRef<M> | undefined
 
   function ref(path: any) {

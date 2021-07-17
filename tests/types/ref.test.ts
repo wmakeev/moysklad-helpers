@@ -1,4 +1,5 @@
 import Moysklad from 'moysklad'
+import { Account } from 'moysklad-api-model'
 
 import { EntityRef, getHelpers } from '../../src'
 import { noop } from '../tools'
@@ -24,4 +25,8 @@ const t21: EntityRef<'customentity'> = ref(
   'https://online.moysklad.ru/api/remap/1.2/entity/customentity/123-456'
 )
 
-noop(t10, t11, t20, t21)
+const account = {} as Account
+
+const t30: EntityRef<'account'> = ref(account)
+
+noop(t10, t11, t20, t21, t30)
