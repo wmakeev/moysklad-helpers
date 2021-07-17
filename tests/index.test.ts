@@ -1,7 +1,10 @@
 import test from 'tape'
 import Moysklad from 'moysklad'
 
-import { getHelpers } from '../src'
+import { EntityRef, getHelpers } from '../src'
+import { noop } from './tools'
+
+const ENDPOINT = 'https://online.moysklad.ru/api/remap/1.2'
 
 test('href', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
@@ -10,18 +13,18 @@ test('href', t => {
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
-  const HREF1 = ms.buildUrl(ref1)
+  const href1 = ms.buildUrl(ref1) as `${typeof ENDPOINT}/${typeof ref1}`
 
-  const entityRef1 = {
+  const entityRef1: EntityRef<'attributemetadata'> = {
     meta: {
       type: 'attributemetadata',
-      href: HREF1
+      href: href1
     }
   }
 
-  t.equal(href(HREF1), HREF1, 'should return href for href')
-  t.equal(href(ref1), HREF1, 'should return href for ref')
-  t.equal(href(entityRef1), HREF1, 'should return href for entityRef')
+  t.equal(href(href1), href1, 'should return href for href')
+  t.equal(href(ref1), href1, 'should return href for ref')
+  t.equal(href(entityRef1), href1, 'should return href for entityRef')
 
   t.equal(
     href('https://online.moysklad.ru/api/remap/1.1/entity/customerorder'),
@@ -165,24 +168,47 @@ test('ref', t => {
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
-  const HREF1 = ms.buildUrl(ref1)
+  const HREF1 = ms.buildUrl(ref1) as `${typeof ENDPOINT}/${typeof ref1}`
 
-  const entityRef1 = {
+  const entityRef1: EntityRef<'attributemetadata'> = {
     meta: {
       type: 'attributemetadata',
       href: HREF1
     }
   }
 
-  const result1 = ref(HREF1)
-  t.deepEqual(result1.meta, entityRef1.meta, 'should return entityRef')
+  const result11: EntityRef<'attributemetadata'> = ref(HREF1)
 
-  const result2 = ref(HREF1, { foo: 'bar' })
-  t.deepEqual(result2.foo, 'bar', 'should return extended entityRef')
+  t.deepEqual(result11.meta, entityRef1.meta, 'should return entityRef (11)')
 
-  const result3 = ref(undefined, { foo: 'bar' })
+  const result12: EntityRef<string> = ref(ref1)
+
+  t.deepEqual(result12.meta, entityRef1.meta, 'should return entityRef (12)')
+
+  const result2: EntityRef<string> & {
+    foo: string
+  } = {
+    ...ref(HREF1),
+    foo: 'bar'
+  }
+
+  t.deepEqual(result2.meta, entityRef1.meta, 'should return entityRef (2)')
+  t.strictEqual(result2.foo, 'bar', 'should return extended entityRef (2)')
+
+  // @ts-expect-error
+  const result3: {
+    meta: {
+      type: 'attributemetadata3'
+      href: string
+    }
+  } = ref(entityRef1)
+  noop(result3)
+
+  t.deepEqual(result2.meta, entityRef1.meta, 'should return entityRef (2)')
+
+  const result9 = ref(undefined)
   t.deepEqual(
-    result3,
+    result9,
     undefined,
     'should return undefined for undefined path arg'
   )
@@ -192,22 +218,28 @@ test('ref', t => {
 
 test('positionRef', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
+
   const { ref, href, positionRef } = getHelpers(ms)
 
   const posId = '39f9f7bc-d4da-11e4-95df-0cc47a051618'
 
   const ref1 = 'entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
-  const posHref1 = href([ref1, 'positions', posId])
+  const posHref1 = href(
+    `${ref1}/positions/${posId}`
+  ) as `${typeof ENDPOINT}/${typeof ref1}/positions/${string}`
 
-  const positionRef1 = ref(posHref1)
+  const positionRef1: EntityRef<'customerorderposition'> = ref(posHref1)
 
   const result1 = positionRef(ref1, posId)
+
   t.deepEqual(result1, positionRef1, 'should return position entityRef')
 
-  const result2 = positionRef(ref1, posId, {
+  const result2 = {
+    ...positionRef(ref1, posId),
     quantity: 2
-  })
+  }
+
   t.deepEqual(result2.quantity, 2, 'should return extended position entityRef')
 
   t.end()
@@ -234,44 +266,112 @@ test('refEqual', t => {
   t.end()
 })
 
-test('copyEntRefs', t => {
-  const ms = Moysklad({ apiVersion: '1.2' })
-  const { ref, copyEntRefs } = getHelpers(ms)
-
-  const ref1 =
-    'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
-
-  const HREF1 = ms.buildUrl(ref1)
-
-  const src = ref(HREF1, {
-    a: ref(HREF1),
-    b: ref(HREF1)
-  })
-
-  const result1 = copyEntRefs(src, ['a'])
-
-  t.equal(result1.a.meta.href, HREF1, 'should copy entityRef field')
-
-  t.end()
-})
-
-test('copyEntRefs', t => {
+test('copyFields', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
   const { ref, copyFields } = getHelpers(ms)
 
   const ref1 =
     'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
-  const HREF1 = ms.buildUrl(ref1)
+  const HREF1 = ms.buildUrl(ref1) as `${typeof ENDPOINT}/${typeof ref1}`
 
-  const src = ref(HREF1, {
-    a: 'foo',
-    b: 2
-  })
+  const src = {
+    ...ref(HREF1),
+    a: {
+      ...ref('entity/customerorder/123-456'),
+      name: 'foo'
+    },
+    b: ref(HREF1),
+    c: 42
+  }
 
-  const result1 = copyFields(src, ['a'])
+  const result1: {
+    a: EntityRef<'customerorder'> & { name: string }
+    c: number
+  } = copyFields(src, ['a', 'c'])
 
-  t.equal(result1.a, 'foo', 'should copy entityRef field')
+  // @ts-expect-error
+  const result2: {
+    a: EntityRef<'customerorder'>
+    b: EntityRef<'attributemetadata'>
+    c: number
+  } = copyFields(src, ['a', 'c'])
+
+  noop(result2)
+
+  t.equal(
+    result1.a.meta.href,
+    `${ENDPOINT}/entity/customerorder/123-456`,
+    'should copy field #1'
+  )
+
+  t.equal(result1.a.name, `foo`, 'should copy field #2')
+
+  t.equal(
+    // @ts-expect-error
+    result1.b,
+    undefined,
+    'should not copy field'
+  )
+
+  t.equal(result1.c, 42, 'should copy field #3')
+
+  t.end()
+})
+
+test('copyFieldsRefs', t => {
+  const ms = Moysklad({ apiVersion: '1.2' })
+  const { ref, copyFieldsRefs } = getHelpers(ms)
+
+  const ref1 =
+    'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
+
+  const HREF1 = ms.buildUrl(ref1) as `${typeof ENDPOINT}/${typeof ref1}`
+
+  const src = {
+    ...ref(HREF1),
+    a: {
+      ...ref('entity/customerorder/123-456'),
+      name: 'foo'
+    },
+    b: ref(HREF1),
+    c: 42
+  }
+
+  const result1: {
+    a: EntityRef<'customerorder'>
+    c: number
+  } = copyFieldsRefs(src, ['a', 'c'])
+
+  // @ts-expect-error
+  const result2: {
+    a: EntityRef<'customerorder'> & { name: string }
+    c: number
+  } = copyFieldsRefs(src, ['a', 'c'])
+
+  // @ts-expect-error
+  const result3: {
+    a: EntityRef<'customerorder'>
+    b: EntityRef<'attributemetadata'>
+    c: number
+  } = copyFieldsRefs(src, ['a', 'c'])
+
+  noop(result2, result3)
+
+  t.equal(
+    result1.a.meta.href,
+    `${ENDPOINT}/entity/customerorder/123-456`,
+    'should copy entityRef field'
+  )
+
+  t.equal(
+    // @ts-expect-error
+    result1.b,
+    undefined,
+    'should not copy entityRef field'
+  )
+
+  t.equal(result1.c, 42, 'should copy not entityRef field')
 
   t.end()
 })
