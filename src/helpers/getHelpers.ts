@@ -95,7 +95,7 @@ export function getHelpers(ms: Instance) {
 
         if (isEntityRef(curFieldVal)) {
           res[fieldName] = ref(curFieldVal as EntityRef<MetaType>) as any
-        } else {
+        } else if (curFieldVal != null) {
           res[fieldName] = curFieldVal as any
         }
 
