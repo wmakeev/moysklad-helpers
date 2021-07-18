@@ -88,10 +88,7 @@ export function getHelpers(ms: Instance) {
       : href(entityRef1 as any) === href(entityRef2 as any)
   }
 
-  function copyFieldsRefs<T extends EntityRef, K extends keyof T>(
-    srcEntity: T,
-    fieldNames: K[]
-  ) {
+  function copyFieldsRefs<T, K extends keyof T>(srcEntity: T, fieldNames: K[]) {
     return fieldNames.reduce(
       (res, fieldName) => {
         const curFieldVal = srcEntity[fieldName]
@@ -110,7 +107,7 @@ export function getHelpers(ms: Instance) {
     )
   }
 
-  function copyFields<T extends EntityRef, K extends keyof T>(
+  function copyFields<T, K extends keyof T>(
     srcEntity: T,
     fieldNames: Array<K>
   ) {
