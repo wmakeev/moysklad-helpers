@@ -42,6 +42,8 @@ export function getRefMetaType(anyRef: any) {
     }
   }
 
+  // FIXME Прописать все варианты возможны баги!!!
+
   // TODO Возможно тут нужно сравнивать не под подстроке а по массиву (path)
   switch (true) {
     case anyRef.indexOf('entity/customentity') === 0:
@@ -62,10 +64,33 @@ export function getRefMetaType(anyRef: any) {
 
     default:
       const parts = anyRef.split('/')
+
+      // entity/{type}/..
       if (parts[0] === 'entity' && parts[1]) {
-        if (parts[3] === 'positions') {
-          return `${parts[1]}position`
-        } else {
+        // entity/{type}/{id}/{sub}
+        if (parts[3]) {
+          const subEntity = parts[3]
+
+          // entity/{type}/{id}/positions
+          if (subEntity === 'positions') {
+            // FIXME invoiceposition, ..
+            return `${parts[1]}position`
+          }
+
+          // entity/{type}/{id}/accounts
+          else if (subEntity === 'accounts') {
+            return 'account'
+          }
+
+          // entity/{type}/{id}/???
+          else {
+            throw new Error(
+              `getRefMetaType: Неизвестный тип вложенной сущности - ${subEntity}`
+            )
+          }
+        }
+        // entity/{type}/{id}
+        else {
           return parts[1]
         }
       }

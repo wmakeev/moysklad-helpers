@@ -1,4 +1,5 @@
 import {
+  CompanyMetaType,
   DocumentPositionType,
   DocumentWithPositionsMetaType,
   DomineEntityMetaType
@@ -29,6 +30,8 @@ export interface EntityWithAttributes<T> extends Entity {
   attributes: EntityAttribute<T>[]
 }
 
+// TODO Нужно прописать все варианты
+
 // prettier-ignore
 
 export type HrefMetaType<Ref extends string> =
@@ -56,6 +59,14 @@ export type HrefMetaType<Ref extends string> =
       ? Ref extends `entity/${infer M}/${string}/positions/${string}`
         ? M extends DocumentWithPositionsMetaType
           ? DocumentPositionType[M]
+          : never
+        : never
+
+    // ../accounts/..
+    : Ref extends `entity/${string}/${string}/accounts/${string}`
+      ? Ref extends `entity/${infer M}/${string}/accounts/${string}`
+        ? M extends CompanyMetaType
+          ? 'account'
           : never
         : never
 

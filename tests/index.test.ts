@@ -213,6 +213,11 @@ test('ref', t => {
     'should return undefined for undefined path arg'
   )
 
+  const result10: EntityRef<'account'> = ref(
+    'entity/organization/8fa61aaf-36cc-11ea-0a80-04d200088ba4/accounts/0855a906-5b29-11eb-0a80-052300107764'
+  )
+  t.equal(result10.meta.type, 'account')
+
   t.end()
 })
 
