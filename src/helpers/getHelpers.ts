@@ -1,4 +1,3 @@
-import type { Instance } from 'moysklad'
 import {
   DocumentPositionType,
   DocumentWithPositionsMetaType,
@@ -7,7 +6,7 @@ import {
 import { EntityRef, isEntityRef, HrefMetaType, Meta } from '../types'
 import { getRefMetaType } from './getRefMetaType'
 
-export function getHelpers(ms: Instance) {
+export function getHelpers(ms: { buildUrl: (path: string) => string }) {
   /**
    * Возвращает href для некого пути
    */
