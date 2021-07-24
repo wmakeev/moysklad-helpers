@@ -2,7 +2,8 @@ import {
   CompanyMetaType,
   DocumentPositionType,
   DocumentWithPositionsMetaType,
-  DomineEntityMetaType
+  DomineEntityMetaType,
+  RemapApiHref
 } from 'moysklad-api-model'
 
 export interface Meta<T extends string = string> {
@@ -36,7 +37,7 @@ export interface EntityWithAttributes<T> extends Entity {
 
 export type HrefMetaType<Ref extends string> =
   // 1.
-  Ref extends `https://${string}/api/remap/${string}/${infer Rest}`
+  Ref extends RemapApiHref<infer Rest>
     ? HrefMetaType<Rest>
 
   // 2. entity/../../../..

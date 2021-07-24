@@ -1,6 +1,6 @@
 {
   "name": "moysklad-helpers",
-  "version": "3.0.0-beta.7",
+  "version": "3.0.0-beta.8",
   "description": "Вспомогательные функции для работы с библиотекой moysklad",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -8,6 +8,7 @@
     "dist/src"
   ],
   "scripts": {
+    "update": "npm i moysklad-api-model@latest",
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "npm run format && rm -rf dist/* && tsc --build tsconfig.deploy.json",
     "test": "npm run build && node dist/tests/index.test.js | tap-spec",
@@ -39,6 +40,6 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "moysklad-api-model": "^0.3.0"
+    "moysklad-api-model": "^0.3.5"
   }
 }
