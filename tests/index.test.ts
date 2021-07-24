@@ -22,9 +22,16 @@ test('href', t => {
     }
   }
 
-  t.equal(href(href1), href1, 'should return href for href')
-  t.equal(href(ref1), href1, 'should return href for ref')
-  t.equal(href(entityRef1), href1, 'should return href for entityRef')
+  const h1: 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a' =
+    href(href1)
+  t.equal(h1, href1, 'should return href for href')
+
+  const h2: `https://online.moysklad.ru/api/remap/${string}/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a` =
+    href(ref1)
+  t.equal(h2, href1, 'should return href for ref')
+
+  const h3: string = href(entityRef1)
+  t.equal(h3, href1, 'should return href for entityRef')
 
   t.equal(
     href('https://online.moysklad.ru/api/remap/1.1/entity/customerorder'),
@@ -230,9 +237,8 @@ test('positionRef', t => {
 
   const ref1 = 'entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
-  const posHref1 = href(
-    `${ref1}/positions/${posId}`
-  ) as `${typeof ENDPOINT}/${typeof ref1}/positions/${string}`
+  const posHref1: `https://online.moysklad.ru/api/remap/${string}/entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a/positions/39f9f7bc-d4da-11e4-95df-0cc47a051618` =
+    href(`${ref1}/positions/${posId}`)
 
   const positionRef1: EntityRef<'customerorderposition'> = ref(posHref1)
 

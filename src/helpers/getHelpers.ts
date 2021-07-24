@@ -1,7 +1,8 @@
 import {
   DocumentPositionType,
   DocumentWithPositionsMetaType,
-  MetaType
+  MetaType,
+  RemapApiHref
 } from 'moysklad-api-model'
 import { EntityRef, isEntityRef, HrefMetaType, Meta } from '../types'
 import { getRefMetaType } from './getRefMetaType'
@@ -10,9 +11,17 @@ export function getHelpers(ms: { buildUrl: (path: string) => string }) {
   /**
    * Возвращает href для некого пути
    */
-  function href<T extends string>(ref: T): string
+  function href<T extends `https://${string}`>(ref: T): T
 
-  function href<M extends MetaType>(entityRef: EntityRef<M>): string
+  /**
+   * Возвращает href для некого пути
+   */
+  function href<T extends string>(ref: T): RemapApiHref<T>
+
+  // TODO Нужно выводить href по MetaType
+  function href<M extends MetaType>(
+    entityRef: EntityRef<M>
+  ): EntityRef<M>['meta']['href']
 
   function href(path: any) {
     if (isEntityRef(path)) {
