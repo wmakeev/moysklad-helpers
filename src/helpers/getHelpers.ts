@@ -11,19 +11,28 @@ export function getHelpers(ms: { buildUrl: (path: string) => string }) {
   /**
    * Возвращает href для некого пути
    */
-  function href<T extends `https://${string}`>(ref: T): T
+  function href(ref: null | undefined): undefined
 
   /**
    * Возвращает href для некого пути
    */
-  function href<T extends string>(ref: T): RemapApiHref<T>
+  function href<T extends `https://${string}` | null | undefined>(ref: T): T
+
+  /**
+   * Возвращает href для некого пути
+   */
+  function href<T extends string | null | undefined>(
+    ref: T
+  ): T extends string ? RemapApiHref<T> : T
 
   // TODO Нужно выводить href по MetaType
-  function href<M extends MetaType>(
-    entityRef: EntityRef<M>
-  ): EntityRef<M>['meta']['href']
+  function href<T extends EntityRef<M> | null | undefined, M extends MetaType>(
+    entityRef: T
+  ): T extends EntityRef<M> ? EntityRef<M>['meta']['href'] : T
 
   function href(path: any) {
+    if (path == null) return undefined
+
     if (isEntityRef(path)) {
       return ms.buildUrl(path.meta.href)
     } else {

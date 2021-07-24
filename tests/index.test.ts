@@ -15,12 +15,12 @@ test('href', t => {
 
   const href1 = ms.buildUrl(ref1) as `${typeof ENDPOINT}/${typeof ref1}`
 
-  const entityRef1: EntityRef<'attributemetadata'> = {
+  const entityRef1 = {
     meta: {
       type: 'attributemetadata',
       href: href1
     }
-  }
+  } as EntityRef<'attributemetadata'>
 
   const h1: 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a' =
     href(href1)
@@ -33,11 +33,34 @@ test('href', t => {
   const h3: string = href(entityRef1)
   t.equal(h3, href1, 'should return href for entityRef')
 
+  const h3_2: string | undefined = href(
+    entityRef1 as EntityRef<'attributemetadata'> | undefined
+  )
+  h3_2
+
   t.equal(
     href('https://online.moysklad.ru/api/remap/1.1/entity/customerorder'),
     'https://online.moysklad.ru/api/remap/1.2/entity/customerorder',
     'should rebuild url with other api version'
   )
+
+  const h4: undefined = href(null)
+  t.equal(h4, undefined, 'should return undefined')
+
+  const h5: undefined = href(undefined)
+  t.equal(h5, undefined, 'should return undefined')
+
+  const h6Ref = 'entity/customerorder' as 'entity/customerorder' | null
+  const h6:
+    | `https://online.moysklad.ru/api/remap/${string}/entity/customerorder`
+    | null = href(h6Ref)
+  h6
+
+  const h7Ref = 'entity/customerorder' as 'entity/customerorder' | undefined
+  const h7:
+    | `https://online.moysklad.ru/api/remap/${string}/entity/customerorder`
+    | undefined = href(h7Ref)
+  h7
 
   t.end()
 })
