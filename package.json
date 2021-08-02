@@ -1,6 +1,6 @@
 {
   "name": "moysklad-helpers",
-  "version": "3.0.0-beta.10",
+  "version": "3.0.0-beta.11",
   "description": "Вспомогательные функции для работы с библиотекой moysklad",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -40,6 +40,6 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "moysklad-api-model": "^0.3.5"
+    "moysklad-api-model": "^0.4.4"
   }
 }
