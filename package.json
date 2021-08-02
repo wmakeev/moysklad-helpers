@@ -13,7 +13,7 @@
     "build": "npm run format && rm -rf dist/* && tsc --build tsconfig.deploy.json",
     "test": "npm run build && node dist/tests/index.test.js | tap-spec",
     "git:tag": "git tag \"v$(cat package.json | json version)\"",
-    "npm:publish": "npm run test && npm publish && npm run git:tag"
+    "npm:publish": "npm run test && npm publish && npm run git:tag && git push"
   },
   "repository": {
     "type": "git",
