@@ -58,7 +58,7 @@ export function getHelpers(ms: { buildUrl: (path: string) => string }) {
 
     return {
       meta: {
-        type: 'attributemetadata',
+        type: 'attributemetadata' as const,
         href: href(path)
       },
       value
