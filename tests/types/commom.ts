@@ -1,6 +1,6 @@
 import Moysklad from 'moysklad'
 import { EntityRef, Patch } from 'moysklad-api-model'
-import { getHelpers } from '../../src'
+import { getHelpers, Helpers } from '../../src'
 import { noop, testTypeEqual } from '../tools'
 
 const ms = Moysklad()
@@ -15,3 +15,7 @@ const orderPatch: Patch<'customerorder'> = {
 testTypeEqual<EntityRef<'state'>>(ref('foo'))
 
 noop(orderPatch)
+
+const helpers = {} as Helpers
+
+helpers.href('entity/customerorder')

@@ -6,6 +6,8 @@ import {
   RemapApiHref
 } from 'moysklad-api-model'
 
+import { getHelpers } from './index'
+
 export interface Meta<T extends string = string> {
   type: T
   href: string
@@ -95,3 +97,5 @@ export type HrefMetaType<Ref extends string> =
     ? 'pricetype'
 
   : never
+
+export type Helpers = ReturnType<typeof getHelpers>
