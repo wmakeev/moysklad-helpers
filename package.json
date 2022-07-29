@@ -1,6 +1,6 @@
 {
   "name": "moysklad-helpers",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Вспомогательные функции для работы с библиотекой moysklad",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
