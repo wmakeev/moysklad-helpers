@@ -191,6 +191,42 @@ test('attr', t => {
   t.end()
 })
 
+test('fileAttr', t => {
+  const ms = Moysklad({ apiVersion: '1.2' })
+  const { fileAttr } = getHelpers(ms)
+
+  const ref1 =
+    'entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
+
+  const HREF1 = ms.buildUrl(ref1)
+
+  const file = {
+    filename: 'file.jpg',
+    content: '123'
+  }
+
+  const fileAttr1 = {
+    meta: {
+      type: 'attributemetadata',
+      href: HREF1
+    },
+    file
+  }
+
+  t.deepEqual(fileAttr(HREF1, file), fileAttr1, 'should return href for href')
+  t.deepEqual(fileAttr(ref1, file), fileAttr1, 'should return href for ref')
+
+  t.throws(
+    () => {
+      fileAttr('entity/customerorder', 'bar')
+    },
+    /Href не соответствует типу атрибута/,
+    'should throw error on not attribute href'
+  )
+
+  t.end()
+})
+
 test('ref', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
   const { ref } = getHelpers(ms)

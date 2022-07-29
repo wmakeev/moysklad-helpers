@@ -65,6 +65,20 @@ export function getHelpers(ms: { buildUrl: (path: string) => string }) {
     }
   }
 
+  const fileAttr = <T>(path: string, file: T) => {
+    if (getRefMetaType(path) !== 'attributemetadata') {
+      throw new Error('attr: Href не соответствует типу атрибута')
+    }
+
+    return {
+      meta: {
+        type: 'attributemetadata' as const,
+        href: href(path)
+      },
+      file
+    }
+  }
+
   function ref<T extends string>(path: T): EntityRef<HrefMetaType<T>>
   function ref<T extends string>(
     path: T | undefined
@@ -142,6 +156,7 @@ export function getHelpers(ms: { buildUrl: (path: string) => string }) {
   return {
     href,
     attr,
+    fileAttr,
     meta,
     ref,
     positionRef,

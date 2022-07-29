@@ -11,9 +11,9 @@
     "update": "npm i moysklad-api-model@latest",
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "npm run format && rm -rf dist/* && tsc --build tsconfig.deploy.json",
-    "test": "npm run build && node dist/tests | tap-spec",
-    "git:tag": "git tag \"v$(cat package.json | json version)\"",
-    "npm:publish": "npm run test && npm publish && npm run git:tag && git push"
+    "test": "npm run build && node dist/tests",
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "release": "np"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/wmakeev/moysklad-helpers#readme",
   "devDependencies": {
     "@types/tape": "^4.13.1",
+    "auto-changelog": "^2.4.0",
     "json": "^11.0.0",
     "moysklad": "^0.10.0",
     "prettier": "^2.3.2",
@@ -40,6 +41,6 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "moysklad-api-model": "^0.5.4"
+    "moysklad-api-model": "^0.5.5"
   }
 }
