@@ -4,7 +4,7 @@ import Moysklad from 'moysklad'
 import { EntityRef, getHelpers } from '../src'
 import { noop } from './tools'
 
-const ENDPOINT = 'https://online.moysklad.ru/api/remap/1.2'
+const ENDPOINT = 'https://api.moysklad.ru/api/remap/1.2'
 
 test('href', t => {
   const ms = Moysklad({ apiVersion: '1.2' })
@@ -22,11 +22,11 @@ test('href', t => {
     }
   } as EntityRef<'attributemetadata'>
 
-  const h1: 'https://online.moysklad.ru/api/remap/1.2/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a' =
+  const h1: 'https://api.moysklad.ru/api/remap/1.2/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a' =
     href(href1)
   t.equal(h1, href1, 'should return href for href')
 
-  const h2: `https://online.moysklad.ru/api/remap/${string}/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a` =
+  const h2: `https://api.moysklad.ru/api/remap/${string}/entity/customerorder/metadata/attributes/39f9f7bc-d4da-11e4-95df-0cc47a05161a` =
     href(ref1)
   t.equal(h2, href1, 'should return href for ref')
 
@@ -39,8 +39,8 @@ test('href', t => {
   h3_2
 
   t.equal(
-    href('https://online.moysklad.ru/api/remap/1.1/entity/customerorder'),
-    'https://online.moysklad.ru/api/remap/1.2/entity/customerorder',
+    href('https://api.moysklad.ru/api/remap/1.1/entity/customerorder'),
+    'https://api.moysklad.ru/api/remap/1.2/entity/customerorder',
     'should rebuild url with other api version'
   )
 
@@ -52,13 +52,13 @@ test('href', t => {
 
   const h6Ref = 'entity/customerorder' as 'entity/customerorder' | null
   const h6:
-    | `https://online.moysklad.ru/api/remap/${string}/entity/customerorder`
+    | `https://api.moysklad.ru/api/remap/${string}/entity/customerorder`
     | null = href(h6Ref)
   h6
 
   const h7Ref = 'entity/customerorder' as 'entity/customerorder' | undefined
   const h7:
-    | `https://online.moysklad.ru/api/remap/${string}/entity/customerorder`
+    | `https://api.moysklad.ru/api/remap/${string}/entity/customerorder`
     | undefined = href(h7Ref)
   h7
 
@@ -296,7 +296,7 @@ test('positionRef', t => {
 
   const ref1 = 'entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a'
 
-  const posHref1: `https://online.moysklad.ru/api/remap/${string}/entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a/positions/39f9f7bc-d4da-11e4-95df-0cc47a051618` =
+  const posHref1: `https://api.moysklad.ru/api/remap/${string}/entity/customerorder/39f9f7bc-d4da-11e4-95df-0cc47a05161a/positions/39f9f7bc-d4da-11e4-95df-0cc47a051618` =
     href(`${ref1}/positions/${posId}`)
 
   const positionRef1: EntityRef<'customerorderposition'> = ref(posHref1)

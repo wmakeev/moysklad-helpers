@@ -142,15 +142,18 @@ export function getHelpers(ms: { buildUrl: (path: string) => string }) {
     srcEntity: T,
     fieldNames: Array<K>
   ) {
-    return fieldNames.reduce((res, fieldName) => {
-      const curFieldVal = srcEntity[fieldName]
+    return fieldNames.reduce(
+      (res, fieldName) => {
+        const curFieldVal = srcEntity[fieldName]
 
-      if (curFieldVal != null) {
-        res[fieldName] = curFieldVal
-      }
+        if (curFieldVal != null) {
+          res[fieldName] = curFieldVal
+        }
 
-      return res
-    }, {} as { [P in K]: T[P] })
+        return res
+      },
+      {} as { [P in K]: T[P] }
+    )
   }
 
   return {

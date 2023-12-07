@@ -8,12 +8,12 @@ const t10: HrefMetaType<'entity/demand/metadata/attributes/123-456'> =
 // never
 const e11: HrefMetaType<'entity/demand/metadata/attributes3/123-456'> = 'demand'
 
-const t12: HrefMetaType<'https://online.moysklad.ru/api/remap/1.2/entity/demand/metadata/attributes/123-456'> =
+const t12: HrefMetaType<'https://api.moysklad.ru/api/remap/1.2/entity/demand/metadata/attributes/123-456'> =
   'attributemetadata'
 
 // @ts-expect-error
 // never
-const e12: HrefMetaType<'https://online.moysklad.ru/FOO/remap/1.2/entity/demand/metadata/attributes/123-456'> =
+const e12: HrefMetaType<'https://api.moysklad.ru/FOO/remap/1.2/entity/demand/metadata/attributes/123-456'> =
   'never'
 
 const t20: HrefMetaType<'entity/invoiceout/metadata/states/123-456'> = 'state'

@@ -12,7 +12,7 @@ const { ref } = getHelpers(ms)
 const t10: EntityRef<'customentity'> = ref('entity/customentity/123-456')
 
 const t11: EntityRef<'customentity'> = ref(
-  'https://online.moysklad.ru/api/remap/1.2/entity/customentity/123-456'
+  'https://api.moysklad.ru/api/remap/1.2/entity/customentity/123-456'
 )
 
 // attributemetadata
@@ -22,7 +22,7 @@ const t20: EntityRef<'attributemetadata'> = ref(
 )
 
 const t21: EntityRef<'customentity'> = ref(
-  'https://online.moysklad.ru/api/remap/1.2/entity/customentity/123-456'
+  'https://api.moysklad.ru/api/remap/1.2/entity/customentity/123-456'
 )
 
 const account = {} as Account
