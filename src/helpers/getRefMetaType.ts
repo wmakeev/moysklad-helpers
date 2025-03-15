@@ -3,7 +3,7 @@ import { EntityRef, HrefMetaType } from '../types'
 /**
  * Возвращает MetaType для указанной ссылки
  *
- * @param href Cсылка или href
+ * @param href Ссылка или href
  * @returns MetaType для указанной ссылки
  */
 export function getRefMetaType<T extends `https://${string}`>(
@@ -93,6 +93,11 @@ export function getRefMetaType(anyRef: any) {
         else {
           return parts[1]
         }
+      }
+
+      // audit/{id}
+      if (parts[0] === 'audit' && parts[1]) {
+        return 'audit'
       }
 
       throw new Error('Неизвестный тип сокращенного href - ' + anyRef)

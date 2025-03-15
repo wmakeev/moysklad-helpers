@@ -88,11 +88,15 @@ export type HrefMetaType<Ref extends string> =
         : never
       : never
 
-  // 5.
+  // 5. audit/..
+  : Ref extends `audit/${string}`
+    ? 'audit'
+
+  // 6.
   : Ref extends `context/companysettings/metadata/customEntities/${string}`
     ? 'customentitymetadata'
 
-  // 6.
+  // 7.
   : Ref extends `context/companysettings/pricetype/${string}`
     ? 'pricetype'
 

@@ -29,8 +29,13 @@ const t50: HrefMetaType<'entity/customerorder/123-456'> = 'customerorder'
 const t60: HrefMetaType<'entity/purchaseorder/123-456/positions/123-456'> =
   'purchaseorderposition'
 
+const t70: HrefMetaType<'audit/123-456'> = 'audit'
+
+const t80: HrefMetaType<'entity/counterparty/123-456/accounts/123-456'> =
+  'account'
+
 // @ts-expect-error
 // never
 const t100: HrefMetaType<'foo'> = 'never'
 
-noop(t10, e11, t12, e12, t20, t30, t40, t50, t60, t100)
+noop(t10, e11, t12, e12, t20, t30, t40, t50, t60, t70, t80, t100)
